@@ -1,0 +1,89 @@
+general:
+  uuid: eb33eebb-3a63-454d-b7f7-9e8f888cc2fc
+source:
+  type: 'video_img'     # video_img / webcam / stream
+  input: './test_data/IMG_2632.mp4'    # video /path (path file) //  webcam  0 (device number)
+  # type: 'stream'
+  # input: '0'
+  resize_frame: "1280x720"
+  cam_enable: true
+  disable_frame_rate_limit: false
+  frame_rate: 20
+server:
+  # Use this config if you want to use this device as streammer node
+  stream_to_server_enable: false
+  stream_to_url : 192.168.1.23
+  stream_to_port : 8081
+
+  # Use this config if source:type = 'stream'
+  server_listen_address : 192.168.1.23
+  server_listen_port : 8081
+analytic:
+  lpr_ocr:
+    status: false
+    ocr_model: 'tesseract' # tesseract or jaided
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+  lpr_dl:
+    status: false
+    ocr_model: 'jaided' # tesseract or jaided
+    detect_model_path: https://drive.google.com/file/d/1_ViPYlYS5845aW_-o98fR1LRy7CiPsOq/view?usp=drive_link
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    detect_conf: 0.6
+  gender:
+    status: false
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    face_model_path: https://drive.google.com/file/d/1W8pwfJ72QengvxlwspFwWFBfvR1kepYq/view?usp=sharing
+    age_model_path:
+      prototxt: https://drive.google.com/file/d/1mgzfLd7xVekMosQ8Hl2cYACgB_AZ7vIb/view?usp=drive_link
+      caffe: https://drive.google.com/file/d/1LilMsn--XcBEqa3iWcTPmfiKRy2OnQfg/view?usp=drive_link
+    gender_model_path:
+      prototxt: https://drive.google.com/file/d/1Zag92O9_IBcGZbAZe1QEWFMxQ3XaR07Y/view?usp=drive_link
+      caffe: https://drive.google.com/file/d/1eogOiPCpmu2iQU9X3TgFFKpkLLvKH5ns/view?usp=drive_link
+  face_recognition:
+    status: false
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    face_model_path: https://drive.google.com/file/d/1W8pwfJ72QengvxlwspFwWFBfvR1kepYq/view?usp=sharing
+  parking_space:
+    status: true
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    parking_model_path: https://drive.google.com/file/d/1lNoyW0YSkZPRgsdXY6kpnmFSymyHjtlx/view?usp=drive_link
+    class_path: https://drive.google.com/file/d/1xM0PZJa37i8hp9ue7JOfAyE3xHfdFzoT/view?usp=drive_link
+    rois_path: https://drive.google.com/file/d/1sf2ewtWaXKxyZ4181nGgbnbI_t7eODXg/view?usp=drive_link
+    class_detect: ['car', 'person']
+  car_brand:
+    status: false
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    carlogo_model_path: https://drive.google.com/file/d/1JRfvZsEaGDL0l9H8pdK8D2VpGQ5wujKj/view?usp=sharing
+  object_counting:
+    status: false
+    detect_model_path: https://drive.google.com/file/d/1ixs0ZWJogGtA2N0oyGdPlxv4f6OsJR44/view?usp=drive_link
+    frame_skip: 3 # low number mean high sampling rate, 1 mean all frame analysis
+    class: [0]
+  car_model:
+    status: false
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    carmodel_model_path: https://drive.google.com/file/d/1SJQZpLdpgzXdTxQ1ySjNu4Im78JvLBoR/view?usp=drive_link
+  emotion:
+    status: false
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    face_model_path: https://drive.google.com/file/d/1W8pwfJ72QengvxlwspFwWFBfvR1kepYq/view?usp=drive_link
+    emotion_model_path: https://drive.google.com/file/d/1q2eLlXRmn_3Slwb9rxRuJzIuZZ1VrFFe/view?usp=drive_link
+    label2text_path: https://drive.google.com/file/d/1alXNd0Ds2DJ6_5u7GDW9JePwIOTlK0r_/view?usp=drive_link
+  multi_cam:
+    status: false
+    detect_model_path: https://drive.google.com/file/d/1o53lWEq8XXj5BfvZt3WqtoJ-wxE20OFx/view?usp=drive_link
+    frame_skip: 1 # low number mean high sampling rate, 10 mean all frame analysis
+    class: [0]
+  frauding:
+    status: false
+    frame_skip: 1
+    time_range: 15
+    pose_model_path: https://drive.google.com/file/d/1ErprrbvEZnHUzSKDLXp_oMnc1Guc9wCQ/view?usp=sharing
+    detect_model_path: https://drive.google.com/file/d/1hd36kVcMXxcYshMRZ-vgTEBzR2zWOHcN/view?usp=sharing
+post_process:
+  parking_calculation:
+    status: true
+    model_enable: ['parking_space', 'lpr_dl', 'car_brand', 'car_model']
+  object_entry:
+    status: true
+    model_enable: ['parking_space', 'object_counting', 'face_recognition', 'gender', 'emotion']

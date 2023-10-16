@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "donjayamanne.python-extension-pack",
+    "ms-python.pylint",
+    "ms-python.autopep8",
+    "kevinrose.vsc-python-indent"
+  ]
+}

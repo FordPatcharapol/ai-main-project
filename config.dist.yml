@@ -1,0 +1,103 @@
+general:
+  uuid: eb33eebb-3a63-454d-b7f7-9e8f888cc2fc
+source:
+  type: "video_img" # video_img / webcam / stream
+  input: "./test_data/multi_camera.mp4" # video /path (path file) //  webcam  0 (device number)
+  # type: 'webcam'
+  # input: '0'
+  resize_frame: "1920x1080"
+  cam_enable: true
+  disable_frame_rate_limit: false
+  frame_rate: 5
+  video_capture:
+    status: true
+    analytic: false
+    duration: 10
+    interval: 1 # in day
+server:
+  # Use this config if you want to use this device as streammer node
+  stream_to_server_enable: false
+  stream_to_url: 192.168.1.23
+  stream_to_port: 8081
+
+  # Use this config if source:type = 'stream'
+  server_listen_address: 192.168.1.23
+  server_listen_port: 8081
+
+analytic:
+  lpr_ocr:
+    status: false
+    ocr_model: "tesseract" # tesseract or jaided
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+  lpr_dl:
+    status: false
+    ocr_model: "jaided" # tesseract or jaided
+    detect_model_path: ./temp_model/lpr_dl/detect_LP.pt
+    frame_skip: 20 # low number mean high sampling rate, 1 mean all frame analysis
+    detect_conf: 0.6
+  gender:
+    status: false
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    face_model_path: "./ml_libraries/gender_detection/model/face_detect.pt"
+    age_model_path:
+      prototxt: ./ml_libraries/gender_detection/model/age.prototxt
+      caffe: ./ml_libraries/gender_detection/model/age.caffemodel
+    gender_model_path:
+      prototxt: ./ml_libraries/gender_detection/model/gender.prototxt
+      caffe: ./ml_libraries/gender_detection/model/gender.caffemodel
+  face_recognition:
+    status: true
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    period_interval: 3
+    face_model_path: "./temp_model/face_recognition/face_detect.pt"
+  parking_space:
+    status: false
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    parking_model_path: ./ml_libraries/parking_space/yolov8s.pt
+    class_path: ./ml_libraries/parking_space/coco.txt
+    rois_path: ./ml_libraries/parking_space/data/rois_IMG_2632.csv
+    class_detect: ["car", "person"]
+  car_brand:
+    status: false
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    carlogo_model_path: ./ml_libraries/car_brand_detection/model_carlogo.pt
+  object_counting:
+    status: false
+    detect_model_path: ./ml_libraries/object_counting/model/yolov8s.pt
+    frame_skip: 3 # low number mean high sampling rate, 1 mean all frame analysis
+    class: [0]
+  car_model:
+    status: false
+    frame_skip: 10 # low number mean high sampling rate, 1 mean all frame analysis
+    carmodel_model_path: ./ml_libraries/car_model_detection/model_carmodel.pt
+  emotion:
+    status: false
+    frame_skip: 5 # low number mean high sampling rate, 1 mean all frame analysis
+    face_model_path: ./ml_libraries/gender_detection/model/face_detect.pt
+    emotion_model_path: ./ml_libraries/emotion_detection/model/CNNModel_feraligned+ck_5emo.h5
+    label2text_path: ./ml_libraries/emotion_detection/model/label2text_CNNModel_feraligned+ck_5emo.pkl
+  multi_cam:
+    status: false
+    detect_model_path: ./ml_libraries/object_counting/model/yolov8s.pt
+    frame_skip: 1 # low number mean high sampling rate, 10 mean all frame analysis
+    class: [0]
+  frauding:
+    status: false
+    frame_skip: 1
+    time_range: 15
+    pose_model_path: ./ml_libraries/frauding_detection/model/yolov8s-pose.pt
+    detect_model_path: ./ml_libraries/frauding_detection/model/frauding.pt
+post_process:
+  parking_calculation:
+    status: false
+    model_enable: ["parking_space", "lpr_dl", "car_brand", "car_model"]
+  object_entry:
+    status: false
+    model_enable:
+      [
+        "parking_space",
+        "object_counting",
+        "face_recognition",
+        "gender",
+        "emotion",
+      ]

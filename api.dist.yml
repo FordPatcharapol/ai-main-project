@@ -1,0 +1,9 @@
+enable : true
+server:
+  address: http://localhost:5001
+  config_enable: true
+  config_interval: 10
+  max_frame_buffer : 10 # sent to server every X frame
+  period_interval: 5 # Seconds to send data to api
+  retry_connect: 5 # Seconds to retry data to api
+  healthcheck_interval: 60 # Seconds to retry data to api

@@ -1,0 +1,15 @@
+.DS_Store
+config.yml
+**/__pycache__
+*.jpg
+*.mp4
+config_*.yml
+server*.yml
+client_*.yml
+test_data
+temp_model
+api.yml
+.venv
+ml_postprocess/object_entry/capture
+ml_postprocess/parking_cal/capture
+videos_capture
