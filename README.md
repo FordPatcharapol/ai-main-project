@@ -1,5 +1,3 @@
-# Car Park Assistance
-
 ## Getting started
 
 ```
